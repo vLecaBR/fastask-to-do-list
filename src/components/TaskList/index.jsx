@@ -1,16 +1,35 @@
 // components/TaskList/index.jsx
-import React from 'react';
-import { TaskListContainer, Title, Input, TaskItem } from './TaskList.styles';
+import React, { useState } from 'react';
+import { TaskListContainer, Title, Input, TaskItem, Checkbox } from './TaskList.styles';
 
 function TaskList() {
+  const [tasks, setTasks] = useState([
+    { id: 1, text: 'Terminar curso React', completed: false },
+    { id: 2, text: 'Terminar trabalho Fábrica de software', completed: false },
+    { id: 3, text: 'Praticar Figma', completed: false },
+    { id: 4, text: 'Praticar React', completed: false },
+  ]);
+
+  const toggleTask = (id) => {
+    setTasks(tasks.map(task => (
+      task.id === id ? { ...task, completed: !task.completed } : task
+    )));
+  };
+
   return (
     <TaskListContainer>
       <Title>Hoje</Title>
       <Input placeholder="Crie uma nova tarefa" />
-      <TaskItem>Terminar curso React</TaskItem>
-      <TaskItem>Terminar trabalho Fábrica de software</TaskItem>
-      <TaskItem>Praticar Figma</TaskItem>
-      <TaskItem>Praticar React</TaskItem>
+      {tasks.map(task => (
+        <TaskItem key={task.id} completed={task.completed}>
+          <Checkbox
+            type="checkbox"
+            checked={task.completed}
+            onChange={() => toggleTask(task.id)}
+          />
+          {task.text}
+        </TaskItem>
+      ))}
     </TaskListContainer>
   );
 }
