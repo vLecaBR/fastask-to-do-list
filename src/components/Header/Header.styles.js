@@ -20,6 +20,5 @@ export const RightSection = styled.div`
   display: flex;
   align-items: center; /* Alinha verticalmente os itens */
   justify-content: flex-end; /* Garante que itens internos fiquem à direita */
-  gap: 20px; /* Espaçamento entre os itens */
   margin-left: 95vw; /* Pequeno espaçamento da borda direita */
 `;
