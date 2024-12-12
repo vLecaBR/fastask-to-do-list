@@ -1,5 +1,6 @@
 import React from "react";
 import logo from '../../assets/logo.png';
+import { Logo } from './Header.styles';
 
 function Header() {
     return (
@@ -8,3 +9,5 @@ function Header() {
         </header>
     );
 }
+
+export default Header;
