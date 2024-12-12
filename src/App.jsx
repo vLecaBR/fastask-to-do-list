@@ -7,6 +7,22 @@ import Header from './components/Header';
 
 function App() {
   const [currentSection, setCurrentSection] = useState('Hoje'); // Estado para controlar a seção atual
+  const [sections, setSections] = useState([
+    'Hoje', 'Próximos 7 dias', 'Programação', 'Trabalho', 'Faculdade', 'Completas', 'Lixeira',
+  ]);
+
+  const addSection = (newSection) => {
+    if (newSection && !sections.includes(newSection)) {
+      setSections([...sections, newSection]);
+    }
+  };
+
+  const removeSection = (sectionToRemove) => {
+    setSections(sections.filter(section => section !== sectionToRemove));
+    if (currentSection === sectionToRemove) {
+      setCurrentSection('Hoje'); // Reverter para "Hoje" se a seção atual for removida
+    }
+  };
 
   return (
     <div>
@@ -14,7 +30,12 @@ function App() {
         <Header />
       </HeaderContainer>
       <Container>
-        <Sidebar setCurrentSection={setCurrentSection} />
+        <Sidebar
+          sections={sections}
+          setCurrentSection={setCurrentSection}
+          addSection={addSection}
+          removeSection={removeSection}
+        />
         <TaskList section={currentSection} />
       </Container>
     </div>
