@@ -8,7 +8,7 @@ import Header from './components/Header';
 function App() {
   const [currentSection, setCurrentSection] = useState('Hoje'); // Estado para controlar a seção atual
   const [sections, setSections] = useState([
-    'Hoje', 'Próximos 7 dias', 'Programação', 'Trabalho', 'Faculdade', 'Completas', 'Lixeira',
+    'Hoje', 'Próximos 7 dias',  'Completas', 'Lixeira',
   ]);
 
   const addSection = (newSection) => {
