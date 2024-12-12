@@ -1,5 +1,4 @@
-// components/TaskList/TaskList.styles.js
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const TaskListContainer = styled.div`
   flex: 1;
@@ -12,28 +11,6 @@ export const Title = styled.h2`
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
-`;
-
-export const TaskItem = styled.div`
-  display: flex;
-  align-items: center;
-  background: #ffffff;
-  padding: 15px;
-  margin: 10px 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  font-size: 16px;
-  color: #333;
-  ${({ completed }) =>
-    completed &&
-    css`
-      text-decoration: line-through;
-      color: #aaa;
-    `}
-`;
-
-export const Checkbox = styled.input`
-  margin-right: 15px;
 `;
 
 export const Input = styled.input`
