@@ -33,31 +33,39 @@ function TaskList({ section }) {
   };
 
   const deleteTask = (id) => {
-    setTasks(tasks.map(task => (
-      task.id === id ? { ...task, section: 'Lixeira' } : task
-    )));
+    if (section === 'Lixeira') {
+      setTasks(tasks.filter(task => task.id !== id));
+    } else {
+      setTasks(tasks.map(task => (
+        task.id === id ? { ...task, section: 'Lixeira' } : task
+      )));
+    }
   };
 
   return (
     <TaskListContainer>
       <Title>{section}</Title>
-      <TextField
-        label={`Adicione uma tarefa em "${section}"`}
-        multiline
-        rows={1}
-        value={newTask}
-        onChange={(e) => setNewTask(e.target.value)}
-        variant="outlined"
-        fullWidth
-        sx={{
-          marginBottom: '20px',
-          backgroundColor: '#ffffff',
-          borderRadius: '5px',
-        }}
-      />
-      <Button variant="contained" color="primary" onClick={addTask}>
-        Adicionar Tarefa
-      </Button>
+      {section !== 'Lixeira' && (
+        <>
+          <TextField
+            label={`Adicione uma tarefa em "${section}"`}
+            multiline
+            rows={1}
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            variant="outlined"
+            fullWidth
+            sx={{
+              marginBottom: '20px',
+              backgroundColor: '#ffffff',
+              borderRadius: '5px',
+            }}
+          />
+          <Button variant="contained" color="primary" onClick={addTask}>
+            Adicionar Tarefa
+          </Button>
+        </>
+      )}
       <List>
         {filteredTasks.map(task => (
           <ListItem
@@ -95,7 +103,7 @@ function TaskList({ section }) {
                 startIcon={<DeleteIcon />}
                 onClick={() => deleteTask(task.id)}
               >
-                Delete
+                {section === 'Lixeira' ? 'Excluir' : 'Mover para Lixeira'}
               </Button>
             </Box>
           </ListItem>
