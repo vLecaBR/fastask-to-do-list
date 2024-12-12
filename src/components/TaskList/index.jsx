@@ -1,3 +1,4 @@
+// TaskList/index.jsx
 import React, { useState } from 'react';
 import { TaskListContainer, Title } from './TaskList.styles';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,15 +10,11 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 
-function TaskList() {
-  const [tasks, setTasks] = useState([
-    { id: 1, text: 'Terminar curso React', completed: false },
-    { id: 2, text: 'Terminar trabalho Fábrica de software', completed: false },
-    { id: 3, text: 'Praticar Figma', completed: false },
-    { id: 4, text: 'Praticar React', completed: false },
-  ]);
-
+function TaskList({ section }) {
+  const [tasks, setTasks] = useState([]); // Tarefas de todas as seções
   const [newTask, setNewTask] = useState('');
+
+  const filteredTasks = tasks.filter(task => task.section === section);
 
   const toggleTask = (id) => {
     setTasks(tasks.map(task => (
@@ -29,7 +26,7 @@ function TaskList() {
     if (newTask.trim()) {
       setTasks([
         ...tasks,
-        { id: tasks.length + 1, text: newTask, completed: false },
+        { id: tasks.length + 1, text: newTask, completed: false, section },
       ]);
       setNewTask('');
     }
@@ -41,9 +38,9 @@ function TaskList() {
 
   return (
     <TaskListContainer>
-      <Title>Hoje</Title>
+      <Title>{section}</Title>
       <TextField
-        label="Crie uma nova tarefa"
+        label={`Adicione uma tarefa em "${section}"`}
         multiline
         rows={1}
         value={newTask}
@@ -54,22 +51,13 @@ function TaskList() {
           marginBottom: '20px',
           backgroundColor: '#ffffff',
           borderRadius: '5px',
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: '#007bff',
-            },
-            '&:hover fieldset': {
-              borderColor: '#0056b3',
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: '#007bff',
-            },
-          },
         }}
       />
-      <Button variant="outlined" onClick={addTask}>Adicionar Tarefa</Button>
+      <Button variant="contained" color="primary" onClick={addTask}>
+        Adicionar Tarefa
+      </Button>
       <List>
-        {tasks.map(task => (
+        {filteredTasks.map(task => (
           <ListItem
             key={task.id}
             sx={{
@@ -79,7 +67,7 @@ function TaskList() {
               marginBottom: '10px',
               boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
               borderRadius: '5px',
-              paddingRight: '10px', // adiciona espaçamento à direita
+              paddingRight: '10px',
             }}
           >
             <Checkbox
@@ -99,7 +87,7 @@ function TaskList() {
                 color: task.completed ? '#aaa' : '#333',
               }}
             />
-            <Box sx={{ marginLeft: 'auto' }}> {/* Alinha o botão à direita */}
+            <Box sx={{ marginLeft: 'auto' }}>
               <Button
                 variant="outlined"
                 startIcon={<DeleteIcon />}
