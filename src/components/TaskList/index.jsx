@@ -33,7 +33,9 @@ function TaskList({ section }) {
   };
 
   const deleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
+    setTasks(tasks.map(task => (
+      task.id === id ? { ...task, section: 'Lixeira' } : task
+    )));
   };
 
   return (
