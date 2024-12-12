@@ -6,22 +6,20 @@ export const HeaderContainer = styled.div`
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Divide o espaço entre a logo e a seção direita */
     align-items: center;
-    position: relative; /* opcional, para garantir posicionamento no fluxo */
 `;
 
 export const Logo = styled.img`
     width: 150px;
-    margin: 0; /* Remove o margin-bottom */
-    margin-left: 40px; /* Adiciona margin-left */
+    margin: 0; /* Remove margens desnecessárias */
+    margin-left: 40px; /* Pequeno espaçamento à esquerda */
 `;
 
-export const Button = styled.button`
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    background-color: #007bff;
-    color: #ffffff;
-    cursor: pointer;
+export const RightSection = styled.div`
+    display: flex;
+    align-items: center; /* Alinha os itens no centro verticalmente */
+    justify-content: flex-end; /* Mantém os itens alinhados à direita */
+    gap: 20px; /* Adiciona espaçamento uniforme entre os itens */
+    margin-right: 40px; /* Pequeno espaçamento à direita do header */
 `;
