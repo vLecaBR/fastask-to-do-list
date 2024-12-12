@@ -11,11 +11,6 @@ export const SidebarContainer = styled.div`
   align-items: center;
 `;
 
-export const Logo = styled.img`
-  width: 150px;
-  margin-bottom: 20px;
-`;
-
 export const List = styled.ul`
   list-style: none;
   padding: 0;
@@ -31,7 +26,7 @@ export const ListItem = styled.li`
   background: #FFF;
 
   &:hover {
-    background-color: #f0f0f0;
-    color: #007bff;
-  }
+  background-color: rgba(0, 123, 255, 0.2);
+  color: #007bff;
+}
 `;

@@ -1,6 +1,6 @@
 // components/Sidebar/index.jsx
 import React from 'react';
-import { SidebarContainer, Logo, List, ListItem } from './Sidebar.styles';
+import { SidebarContainer, List, ListItem } from './Sidebar.styles';
 
 function Sidebar() {
   return (
