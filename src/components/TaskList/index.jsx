@@ -6,6 +6,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 function TaskList() {
   const [tasks, setTasks] = useState([
@@ -50,7 +51,7 @@ function TaskList() {
           borderRadius: '5px',
         }}
       />
-      <button onClick={addTask}>Adicionar Tarefa</button>
+      <Button variant="outlined"onClick={addTask}>Adicionar Tarefa</Button>
       <List>
         {tasks.map(task => (
           <ListItem
