@@ -77,6 +77,11 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
                   e.stopPropagation();
                   removeSection(section);
                 }}
+                sx={{
+                  marginLeft: 'auto',
+                  color: '#007bff',
+                  '&:hover': { color: '#0056b3' },
+                }}
               >
                 <CloseIcon fontSize="small" />
               </IconButton>
