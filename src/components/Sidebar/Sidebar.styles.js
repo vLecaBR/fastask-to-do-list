@@ -26,7 +26,7 @@ export const ListItem = styled.li`
   background: #FFF;
 
   &:hover {
-  background-color: rgba(0, 123, 255, 0.2);
+  background-color: rgba(0, 123, 255, 0.1);
   color: #007bff;
 }
 `;
