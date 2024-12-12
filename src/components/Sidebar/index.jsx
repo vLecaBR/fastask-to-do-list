@@ -2,17 +2,21 @@
 import React from 'react';
 import { SidebarContainer, List, ListItem } from './Sidebar.styles';
 
-function Sidebar() {
+function Sidebar({ setCurrentSection }) {
+  const sections = ['Hoje', 'Próximos 7 dias', 'Programação', 'Trabalho', 'Faculdade', 'Completas', 'Lixeira'];
+
   return (
     <SidebarContainer>
       <List>
-        <ListItem>Hoje</ListItem>
-        <ListItem>Próximos 7 dias</ListItem>
-        <ListItem>Programação</ListItem>
-        <ListItem>Trabalho</ListItem>
-        <ListItem>Faculdade</ListItem>
-        <ListItem>Completas</ListItem>
-        <ListItem>Lixeira</ListItem>
+        {sections.map(section => (
+          <ListItem
+            key={section}
+            onClick={() => setCurrentSection(section)}
+            sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#f0f0f0' } }}
+          >
+            {section}
+          </ListItem>
+        ))}
       </List>
     </SidebarContainer>
   );
