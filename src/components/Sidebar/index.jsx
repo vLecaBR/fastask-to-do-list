@@ -70,7 +70,7 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
             }}
           >
             <span>{section}</span>
-            {section !== 'Hoje' && section !== 'Lixeira' && section !== 'Completas' && (
+            {section !== 'Hoje' && section !== 'Lixeira' && section !== 'Completas' && section !== 'Próximos 7 dias' && (
               <IconButton
                 size="small"
                 onClick={(e) => {
