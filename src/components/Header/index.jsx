@@ -3,6 +3,7 @@ import logo from '../../assets/logo.png';
 import { Logo, RightSection } from './Header.styles';
 import { Avatar } from '@mui/material';
 
+
 function Header() {
     return (
         <header>
