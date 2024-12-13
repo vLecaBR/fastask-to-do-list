@@ -14,6 +14,7 @@ export const HeaderContainer = styled.div`
 export const Logo = styled.img`
   width: 150px; /* Ajusta o tamanho da logo */
   margin-left: 20px; /* Pequeno espaçamento da borda esquerda */
+  margin-top: 20px; /* Pequeno espaçamento da borda superior */
 `;
 
 export const RightSection = styled.div`
