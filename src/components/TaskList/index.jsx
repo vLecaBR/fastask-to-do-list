@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
 
+
 function TaskList({ section }) {
   const [tasks, setTasks] = useState([]); // Tarefas de todas as seções
   const [newTask, setNewTask] = useState('');
