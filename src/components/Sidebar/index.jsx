@@ -1,5 +1,4 @@
-// components/Sidebar/index.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SidebarContainer, List, ListItem } from './Sidebar.styles';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
@@ -7,15 +6,30 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 
-
 function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
   const [newSection, setNewSection] = useState('');
+  const [activeSection, setActiveSection] = useState('');
+
+  // Recupera a seção ativa do localStorage ao carregar o componente
+  useEffect(() => {
+    const savedSection = localStorage.getItem('activeSection');
+    if (savedSection) {
+      setActiveSection(savedSection);
+      setCurrentSection(savedSection); // Notifica o pai também
+    }
+  }, [setCurrentSection]);
 
   const handleAddSection = () => {
     if (newSection.trim()) {
       addSection(newSection.trim());
       setNewSection('');
     }
+  };
+
+  const handleSectionClick = (section) => {
+    setActiveSection(section); // Define a seção ativa
+    setCurrentSection(section); // Notifica o pai sobre a seção ativa
+    localStorage.setItem('activeSection', section); // Salva no localStorage
   };
 
   return (
@@ -57,36 +71,41 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
         </IconButton>
       </Box>
       <List>
-        {sections.map(section => (
+        {sections.map((section) => (
           <ListItem
             key={section}
-            onClick={() => setCurrentSection(section)}
-            sx={{
+            onClick={() => handleSectionClick(section)}
+            style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               cursor: 'pointer',
               padding: '8px 10px',
-              '&:hover': { backgroundColor: '#f0f0f0' },
+              borderRadius: '8px',
+              backgroundColor: activeSection === section ? 'rgba(0, 123, 255, 0.1)' : '#FFF',
+              color: activeSection === section ? '#007bff' : 'inherit',
             }}
           >
             <span>{section}</span>
-            {section !== 'Hoje' && section !== 'Lixeira' && section !== 'Completas' && section !== 'Próximos 7 dias' && (
-              <IconButton
-                size="small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeSection(section);
-                }}
-                sx={{
-                  marginLeft: 'auto',
-                  color: '#007bff',
-                  '&:hover': { color: '#0056b3' },
-                }}
-              >
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            )}
+            {section !== 'Hoje' &&
+              section !== 'Lixeira' &&
+              section !== 'Completas' &&
+              section !== 'Próximos 7 dias' && (
+                <IconButton
+                  size="small"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeSection(section);
+                  }}
+                  sx={{
+                    marginLeft: 'auto',
+                    color: '#007bff',
+                    '&:hover': { color: '#0056b3' },
+                  }}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              )}
           </ListItem>
         ))}
       </List>
