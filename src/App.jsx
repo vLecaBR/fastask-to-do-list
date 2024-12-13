@@ -26,7 +26,7 @@ function App() {
 
   return (
     <div>
-        <Header />
+      <Header />
       <Container>
         <Sidebar
           sections={sections}
