@@ -10,12 +10,12 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
   const [newSection, setNewSection] = useState('');
   const [activeSection, setActiveSection] = useState('');
 
-  // Recupera a seção ativa do localStorage ao carregar o componente
+  //! Recupera a seção ativa do localStorage ao carregar o componente
   useEffect(() => {
     const savedSection = localStorage.getItem('activeSection');
     if (savedSection) {
       setActiveSection(savedSection);
-      setCurrentSection(savedSection); // Notifica o pai também
+      setCurrentSection(savedSection); //! Notifica o pai também
     }
   }, [setCurrentSection]);
 
