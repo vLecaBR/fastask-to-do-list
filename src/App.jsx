@@ -20,7 +20,7 @@ function App() {
   const removeSection = (sectionToRemove) => {
     setSections(sections.filter(section => section !== sectionToRemove));
     if (currentSection === sectionToRemove) {
-      setCurrentSection('Hoje'); // Reverter para "Hoje" se a seção atual for removida
+      setCurrentSection('Hoje'); //! Reverter para "Hoje" se a seção atual for removida
     }
   };
 
