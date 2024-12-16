@@ -6,7 +6,7 @@ import { Container, HeaderContainer } from './App.styles';
 import Header from './components/Header';
 
 function App() {
-  const [currentSection, setCurrentSection] = useState('Hoje'); // Estado para controlar a seção atual
+  const [currentSection, setCurrentSection] = useState('Hoje'); //! Estado para controlar a seção atual
   const [sections, setSections] = useState([
     'Hoje', 'Próximos 7 dias',  'Completas', 'Lixeira',
   ]);
