@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 
 
 function TaskList({ section }) {
-  const [tasks, setTasks] = useState([]); // Tarefas de todas as seções
+  const [tasks, setTasks] = useState([]); //! Tarefas de todas as seções
   const [newTask, setNewTask] = useState('');
 
   const filteredTasks = tasks.filter(task => task.section === section);
