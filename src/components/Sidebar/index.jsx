@@ -27,9 +27,9 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
   };
 
   const handleSectionClick = (section) => {
-    setActiveSection(section); // Define a seção ativa
-    setCurrentSection(section); // Notifica o pai sobre a seção ativa
-    localStorage.setItem('activeSection', section); // Salva no localStorage
+    setActiveSection(section); //! Define a seção ativa
+    setCurrentSection(section); //! Notifica o pai sobre a seção ativa
+    localStorage.setItem('activeSection', section); //! Salva no localStorage
   };
 
   return (
