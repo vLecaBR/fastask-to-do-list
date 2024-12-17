@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import TaskList from './components/TaskList';
-import { Container, HeaderContainer } from './App.styles';
+import { Container } from './App.styles';
 import Header from './components/Header';
 
 function App() {
