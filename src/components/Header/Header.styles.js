@@ -3,11 +3,11 @@ import styled from 'styled-components';
 export const HeaderContainer = styled.div`
   width: 100%; /* O header ocupa toda a largura da tela */
   background-color: #ffffff;
-  padding: 10px 20px; /* Ajusta o espaçamento interno */
+  padding: 10px 20px; //! Ajusta o espaçamento interno do header
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between; /* Espaça os elementos: logo à esquerda, avatar à direita */
-  align-items: center; /* Alinha verticalmente os itens no centro do header */
+  justify-content: space-between; //! Espaça os elementos: logo à esquerda, avatar à direita
+  align-items: center; //! Alinha verticalmente os itens no centro do header
   margin-top: 15px;
 `;
 
