@@ -24,7 +24,7 @@ export const ThemeProvider = ({ children }) => {
   };
 
   const darkTheme = {
-    background: '#121212',
+    background: '#333333',
     text: '#ffffff',
     sidebarBackground: '#333333',
     sidebarText: '#ffffff',

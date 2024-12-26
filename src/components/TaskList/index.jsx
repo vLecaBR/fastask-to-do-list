@@ -1,4 +1,3 @@
-// TaskList/index.jsx
 import React, { useState } from 'react';
 import { TaskListContainer, Title } from './TaskList.styles';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,18 +8,22 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
-
+import { useTheme } from '@mui/material/styles'; // Para acessar o tema MUI
 
 function TaskList({ section }) {
-  const [tasks, setTasks] = useState([]); //! Tarefas de todas as seções
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
 
-  const filteredTasks = tasks.filter(task => task.section === section);
+  const theme = useTheme(); // Obtém o tema atual do MUI
+
+  const filteredTasks = tasks.filter((task) => task.section === section);
 
   const toggleTask = (id) => {
-    setTasks(tasks.map(task => (
-      task.id === id ? { ...task, completed: !task.completed } : task
-    )));
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
 
   const addTask = () => {
@@ -35,11 +38,13 @@ function TaskList({ section }) {
 
   const deleteTask = (id) => {
     if (section === 'Lixeira') {
-      setTasks(tasks.filter(task => task.id !== id));
+      setTasks(tasks.filter((task) => task.id !== id));
     } else {
-      setTasks(tasks.map(task => (
-        task.id === id ? { ...task, section: 'Lixeira' } : task
-      )));
+      setTasks(
+        tasks.map((task) =>
+          task.id === id ? { ...task, section: 'Lixeira' } : task
+        )
+      );
     }
   };
 
@@ -58,7 +63,7 @@ function TaskList({ section }) {
             fullWidth
             sx={{
               marginBottom: '20px',
-              backgroundColor: '#ffffff',
+              backgroundColor: theme.palette.background.default,
               borderRadius: '5px',
             }}
           />
@@ -68,13 +73,13 @@ function TaskList({ section }) {
         </>
       )}
       <List>
-        {filteredTasks.map(task => (
+        {filteredTasks.map((task) => (
           <ListItem
             key={task.id}
             sx={{
               display: 'flex',
               alignItems: 'center',
-              backgroundColor: '#ffffff',
+              backgroundColor: theme.palette.background.paper,
               marginBottom: '10px',
               boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
               borderRadius: '5px',
@@ -85,9 +90,9 @@ function TaskList({ section }) {
               checked={task.completed}
               onChange={() => toggleTask(task.id)}
               sx={{
-                color: '#007bff',
+                color: theme.palette.primary.main,
                 '&.Mui-checked': {
-                  color: '#007bff',
+                  color: theme.palette.primary.main,
                 },
               }}
             />
@@ -95,7 +100,7 @@ function TaskList({ section }) {
               primary={task.text}
               sx={{
                 textDecoration: task.completed ? 'line-through' : 'none',
-                color: task.completed ? '#aaa' : '#333',
+                color: task.completed ? theme.palette.text.disabled : theme.palette.text.primary,
               }}
             />
             <Box sx={{ marginLeft: 'auto' }}>
@@ -103,6 +108,13 @@ function TaskList({ section }) {
                 variant="outlined"
                 startIcon={<DeleteIcon />}
                 onClick={() => deleteTask(task.id)}
+                sx={{
+                  color: theme.palette.primary.main,
+                  borderColor: theme.palette.primary.main,
+                  '&:hover': {
+                    borderColor: theme.palette.primary.dark,
+                  },
+                }}
               >
                 {section === 'Lixeira' ? 'Excluir' : 'Mover para Lixeira'}
               </Button>
