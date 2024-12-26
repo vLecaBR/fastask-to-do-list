@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 export const SidebarContainer = styled.div`
   width: 250px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.sidebarBackground};
+  color: ${({ theme }) => theme.sidebarText};
   padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  box-shadow: ${({ theme }) =>
+    theme.sidebarBackground === '#444' ? '2px 0 5px rgba(255, 255, 255, 0.1)' : '2px 0 5px rgba(0, 0, 0, 0.1)'};
+  transition: background-color 0.3s, color 0.3s;
 `;
 
 export const List = styled.ul`
@@ -23,10 +23,12 @@ export const ListItem = styled.li`
   border-radius: 8px;
   text-align: center;
   margin-bottom: 10px;
-  background: #FFF;
+  background: ${({ theme }) => theme.sidebarBackground};
+  color: ${({ theme }) => theme.sidebarText};
+  transition: background-color 0.3s, color 0.3s;
 
   &:hover {
-  background-color: rgba(0, 123, 255, 0.1);
-  color: #007bff;
-}
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+  }
 `;

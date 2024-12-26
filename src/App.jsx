@@ -4,12 +4,15 @@ import Sidebar from './components/Sidebar';
 import TaskList from './components/TaskList';
 import { Container } from './App.styles';
 import Header from './components/Header';
+import { useTheme } from './context/ThemeContext';
 
 function App() {
   const [currentSection, setCurrentSection] = useState('Hoje'); //! Estado para controlar a seção atual
   const [sections, setSections] = useState([
     'Hoje', 'Próximos 7 dias',  'Completas', 'Lixeira',
   ]);
+
+  const {isDarkMode} = useTheme();
 
   const addSection = (newSection) => {
     if (newSection && !sections.includes(newSection)) {
@@ -28,7 +31,7 @@ function App() {
   return (
     <div>
       <Header />
-      <Container>
+      <Container isDarkMode={isDarkMode}>
         <Sidebar
           sections={sections}
           setCurrentSection={setCurrentSection}

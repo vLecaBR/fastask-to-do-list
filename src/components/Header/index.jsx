@@ -2,11 +2,14 @@ import React from 'react';
 import { Avatar, IconButton } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { HeaderContainer, Logo, RightSection } from './Header.styles';
+import { useTheme } from '../../context/ThemeContext';
 import logo from '../../assets/logo.png';
 
-function Header({ toggleTheme, isDarkMode }) {
+function Header() {
+  const { isDarkMode, toggleTheme } = useTheme();
+
   return (
-    <HeaderContainer>
+    <HeaderContainer isDarkMode={isDarkMode}>
       <Logo src={logo} alt="Fastask Logo" />
       <RightSection>
         <IconButton onClick={toggleTheme} sx={{ marginRight: '10px' }}>
