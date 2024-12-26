@@ -5,17 +5,19 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles'; // Hook do MUI para acessar o tema
 
 function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
   const [newSection, setNewSection] = useState('');
   const [activeSection, setActiveSection] = useState('');
 
-  //! Recupera a seção ativa do localStorage ao carregar o componente
+  const muiTheme = useTheme(); // Obtenha o tema do MUI
+
   useEffect(() => {
     const savedSection = localStorage.getItem('activeSection');
     if (savedSection) {
       setActiveSection(savedSection);
-      setCurrentSection(savedSection); //! Notifica o pai também
+      setCurrentSection(savedSection);
     }
   }, [setCurrentSection]);
 
@@ -27,9 +29,9 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
   };
 
   const handleSectionClick = (section) => {
-    setActiveSection(section); //! Define a seção ativa
-    setCurrentSection(section); //! Notifica o pai sobre a seção ativa
-    localStorage.setItem('activeSection', section); //! Salva no localStorage
+    setActiveSection(section);
+    setCurrentSection(section);
+    localStorage.setItem('activeSection', section);
   };
 
   return (
@@ -39,7 +41,7 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
           display: 'flex',
           alignItems: 'center',
           padding: '10px',
-          borderBottom: '1px solid #ddd',
+          borderBottom: `1px solid ${muiTheme.palette.divider}`,
         }}
       >
         <TextField
@@ -51,19 +53,18 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
           sx={{
             flex: 1,
             marginRight: '10px',
-            backgroundColor: '#ffffff',
+            backgroundColor: muiTheme.palette.background.default,
             borderRadius: '5px',
           }}
         />
         <IconButton
           onClick={handleAddSection}
-          color="primary"
           size="small"
           sx={{
-            backgroundColor: '#007bff',
-            color: '#ffffff',
+            backgroundColor: muiTheme.palette.primary.main,
+            color: muiTheme.palette.common.white,
             '&:hover': {
-              backgroundColor: '#0056b3',
+              backgroundColor: muiTheme.palette.primary.dark,
             },
           }}
         >
@@ -82,8 +83,8 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
               cursor: 'pointer',
               padding: '8px 10px',
               borderRadius: '8px',
-              backgroundColor: activeSection === section ? 'rgba(0, 123, 255, 0.1)' : '#FFF',
-              color: activeSection === section ? '#007bff' : 'inherit',
+              backgroundColor: activeSection === section ? muiTheme.palette.action.hover : muiTheme.palette.background.paper,
+              color: activeSection === section ? muiTheme.palette.primary.main : muiTheme.palette.text.primary,
             }}
           >
             <span>{section}</span>
@@ -99,8 +100,8 @@ function Sidebar({ sections, setCurrentSection, addSection, removeSection }) {
                   }}
                   sx={{
                     marginLeft: 'auto',
-                    color: '#007bff',
-                    '&:hover': { color: '#0056b3' },
+                    color: muiTheme.palette.primary.main,
+                    '&:hover': { color: muiTheme.palette.primary.dark },
                   }}
                 >
                   <CloseIcon fontSize="small" />
