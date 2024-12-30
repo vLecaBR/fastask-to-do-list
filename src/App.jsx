@@ -1,33 +1,43 @@
-// App.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import TaskList from './components/TaskList';
 import { Container } from './App.styles';
 import Header from './components/Header';
 import { useTheme } from './context/ThemeContext';
+import { fetchSections, addSection, removeSection } from './api';
 
 function App() {
-  const [currentSection, setCurrentSection] = useState('Hoje'); //! Estado para controlar a seção atual
-  const [sections, setSections] = useState([
-    'Hoje', 'Próximos 7 dias',  'Completas', 'Lixeira',
-  ]);
+  const [currentSection, setCurrentSection] = useState('Hoje');
+  const [sections, setSections] = useState([]);
+  const { isDarkMode } = useTheme();
 
-  const {isDarkMode} = useTheme();
+  useEffect(() => {
+    const loadSections = async () => {
+      const { data } = await fetchSections();
+      setSections(data);
+    };
 
-  const addSection = (newSection) => {
+    loadSections();
+  }, []);
+
+  const handleAddSection = async (newSection) => {
     if (newSection && !sections.includes(newSection)) {
-      setSections([...sections, newSection]);
+      const { data } = await addSection(newSection);
+      setSections([...sections, data.name]);
     }
   };
 
-  const removeSection = (sectionToRemove) => {
-    setSections(sections.filter(section => section !== sectionToRemove));
-    if (currentSection === sectionToRemove) {
-      setCurrentSection('Hoje'); //! Reverter para "Hoje" se a seção atual for removida
+  const handleRemoveSection = async (sectionToRemove) => {
+    if (!['Hoje', 'Próximos 7 dias', 'Completas', 'Lixeira'].includes(sectionToRemove)) {
+      const sectionId = sections.find((sec) => sec.name === sectionToRemove)?.id;
+      await removeSection(sectionId);
+      setSections(sections.filter((section) => section.name !== sectionToRemove));
+      if (currentSection === sectionToRemove) {
+        setCurrentSection('Hoje');
+      }
     }
   };
 
-  
   return (
     <div>
       <Header />
@@ -35,8 +45,8 @@ function App() {
         <Sidebar
           sections={sections}
           setCurrentSection={setCurrentSection}
-          addSection={addSection}
-          removeSection={removeSection}
+          addSection={handleAddSection}
+          removeSection={handleRemoveSection}
         />
         <TaskList section={currentSection} />
       </Container>

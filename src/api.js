@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3001'; // Substitua pela URL do seu backend, se diferente
+const api = axios.create({
+    baseURL: 'http://localhost:3001', // Substitua pela URL real do seu backend
+  });
 
-// Tarefas
-export const getTasksBySection = (sectionId) => axios.get(`${API_BASE_URL}/tasks/${sectionId}`);
-export const addTask = (task) => axios.post(`${API_BASE_URL}/tasks`, task);
-export const updateTask = (id, updates) => axios.put(`${API_BASE_URL}/tasks/${id}`, updates);
-export const deleteTask = (id) => axios.delete(`${API_BASE_URL}/tasks/${id}`);
+export const fetchSections = () => api.get('/sections');
+export const addSection = (name) => api.post('/sections', { name });
+export const removeSection = (id) => api.delete(`/sections/${id}`);
 
-// Seções
-export const getSections = () => axios.get(`${API_BASE_URL}/sections`);
-export const addSection = (section) => axios.post(`${API_BASE_URL}/sections`, section);
-export const deleteSection = (id) => axios.delete(`${API_BASE_URL}/sections/${id}`);
+export const fetchTasks = (section) => api.get(`/tasks?section=${section}`);
+export const addTask = (task) => api.post('/tasks', task);
+export const updateTask = (id, updates) => api.put(`/tasks/${id}`, updates);
+export const deleteTask = (id) => api.delete(`/tasks/${id}`);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TaskListContainer, Title } from './TaskList.styles';
 import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
@@ -8,43 +8,47 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles'; // Para acessar o tema MUI
+import { useTheme } from '@mui/material/styles';
+import { fetchTasks, addTask, updateTask, deleteTask } from '../../api';
 
 function TaskList({ section }) {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
+  const theme = useTheme();
 
-  const theme = useTheme(); // Obtém o tema atual do MUI ITENS
+  useEffect(() => {
+    const loadTasks = async () => {
+      const { data } = await fetchTasks(section);
+      setTasks(data);
+    };
 
-  const filteredTasks = tasks.filter((task) => task.section === section);
+    loadTasks();
+  }, [section]);
 
-  const toggleTask = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+  const handleToggleTask = async (id) => {
+    const task = tasks.find((t) => t.id === id);
+    const updatedTask = { ...task, completed: !task.completed };
+    await updateTask(id, updatedTask);
+    setTasks(tasks.map((t) => (t.id === id ? updatedTask : t)));
   };
 
-  const addTask = () => {
+  const handleAddTask = async () => {
     if (newTask.trim()) {
-      setTasks([
-        ...tasks,
-        { id: tasks.length + 1, text: newTask, completed: false, section },
-      ]);
+      const { data } = await addTask({ text: newTask, section, completed: false });
+      setTasks([...tasks, data]);
       setNewTask('');
     }
   };
 
-  const deleteTask = (id) => {
+  const handleDeleteTask = async (id) => {
     if (section === 'Lixeira') {
+      await deleteTask(id);
       setTasks(tasks.filter((task) => task.id !== id));
     } else {
-      setTasks(
-        tasks.map((task) =>
-          task.id === id ? { ...task, section: 'Lixeira' } : task
-        )
-      );
+      const task = tasks.find((t) => t.id === id);
+      const updatedTask = { ...task, section: 'Lixeira' };
+      await updateTask(id, updatedTask);
+      setTasks(tasks.map((t) => (t.id === id ? updatedTask : t)));
     }
   };
 
@@ -67,33 +71,20 @@ function TaskList({ section }) {
               borderRadius: '5px',
             }}
           />
-          <Button variant="contained" color="primary" onClick={addTask}>
+          <Button variant="contained" color="primary" onClick={handleAddTask}>
             Adicionar Tarefa
           </Button>
         </>
       )}
       <List>
-        {filteredTasks.map((task) => (
-          <ListItem
-            key={task.id}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: theme.palette.background.paper,
-              marginBottom: '10px',
-              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-              borderRadius: '5px',
-              paddingRight: '10px',
-            }}
-          >
+        {tasks.map((task) => (
+          <ListItem key={task.id} sx={{ display: 'flex', alignItems: 'center' }}>
             <Checkbox
               checked={task.completed}
-              onChange={() => toggleTask(task.id)}
+              onChange={() => handleToggleTask(task.id)}
               sx={{
                 color: theme.palette.primary.main,
-                '&.Mui-checked': {
-                  color: theme.palette.primary.main,
-                },
+                '&.Mui-checked': { color: theme.palette.primary.main },
               }}
             />
             <ListItemText
@@ -107,14 +98,7 @@ function TaskList({ section }) {
               <Button
                 variant="outlined"
                 startIcon={<DeleteIcon />}
-                onClick={() => deleteTask(task.id)}
-                sx={{
-                  color: theme.palette.primary.main,
-                  borderColor: theme.palette.primary.main,
-                  '&:hover': {
-                    borderColor: theme.palette.primary.dark,
-                  },
-                }}
+                onClick={() => handleDeleteTask(task.id)}
               >
                 {section === 'Lixeira' ? 'Excluir' : 'Mover para Lixeira'}
               </Button>
