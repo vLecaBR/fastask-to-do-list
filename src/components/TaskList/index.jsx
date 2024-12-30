@@ -19,36 +19,73 @@ function TaskList({ section }) {
   useEffect(() => {
     const loadTasks = async () => {
       const { data } = await fetchTasks(section);
-      setTasks(data);
+      setTasks(data);  // Atualiza as tarefas para a seção atual
     };
-
+  
     loadTasks();
-  }, [section]);
+  }, [section]);  // Recarrega as tarefas sempre que a seção mudar
+  
 
   const handleToggleTask = async (id) => {
     const task = tasks.find((t) => t.id === id);
-    const updatedTask = { ...task, completed: !task.completed };
-    await updateTask(id, updatedTask);
-    setTasks(tasks.map((t) => (t.id === id ? updatedTask : t)));
+  
+    // Se a tarefa já foi concluída, não faz nada
+    if (task.completed) return;
+  
+    const updatedTask = {
+      ...task,
+      completed: true,  // Marca como concluída
+      section: "Completas",  // Muda para a seção "Completas"
+    };
+  
+    try {
+      // Atualiza a tarefa no front-end imediatamente (sem delay)
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (t.id === id ? updatedTask : t))
+      );
+  
+      // Atualiza a tarefa no back-end para marcar como concluída e mover para a seção "Completas"
+      await updateTask(id, updatedTask);
+  
+      // Remove a tarefa da seção original (exclui do estado local)
+      setTasks((prevTasks) => prevTasks.filter((t) => t.id !== id));
+  
+      // Agora vamos buscar as tarefas da seção "Completas" para garantir que ela apareceu corretamente
+      const { data: completedTasks } = await fetchTasks("Completas");
+  
+      // Atualiza as tarefas na seção "Completas" imediatamente
+      setTasks((prevTasks) => [
+        ...prevTasks.filter((t) => t.section !== "Completas"),
+        ...completedTasks,  // Adiciona a tarefa na seção "Completas"
+      ]);
+  
+    } catch (error) {
+      console.error("Erro ao mover a tarefa para a seção 'Completas':", error);
+    }
   };
+  
+  
 
   const handleAddTask = async () => {
     if (newTask.trim()) {
       const { data } = await addTask({ text: newTask, section, completed: false });
-      setTasks([...tasks, data]);
+      setTasks([...tasks, data]); // Tarefa é adicionada à lista da seção atual
       setNewTask('');
     }
   };
+  
 
   const handleDeleteTask = async (id) => {
     if (section === 'Lixeira') {
-      await deleteTask(id);
-      setTasks(tasks.filter((task) => task.id !== id)); // Tarefa excluída
+      // Excluir permanentemente a tarefa
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id)); // Remove imediatamente da lista
+      await deleteTask(id);  // Deletar no backend
     } else {
+      // Mover tarefa para a seção 'Lixeira'
       const task = tasks.find((t) => t.id === id);
-      const updatedTask = { ...task, section: 'Lixeira' };
-      await updateTask(id, updatedTask); // Mover para Lixeira
-      setTasks(tasks.map((t) => (t.id === id ? updatedTask : t))); // Atualiza a lista
+      const updatedTask = { ...task, section: 'Lixeira' };  // Muda a seção da tarefa para 'Lixeira'
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id)); // Remove a tarefa localmente
+      await updateTask(id, updatedTask);  // Atualiza no backend
     }
   };
   
