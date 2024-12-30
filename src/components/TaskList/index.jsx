@@ -14,7 +14,7 @@ function TaskList({ section }) {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
 
-  const theme = useTheme(); // Obtém o tema atual do MUI
+  const theme = useTheme(); // Obtém o tema atual do MUI ITENS
 
   const filteredTasks = tasks.filter((task) => task.section === section);
 
