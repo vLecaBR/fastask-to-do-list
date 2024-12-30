@@ -43,14 +43,15 @@ function TaskList({ section }) {
   const handleDeleteTask = async (id) => {
     if (section === 'Lixeira') {
       await deleteTask(id);
-      setTasks(tasks.filter((task) => task.id !== id));
+      setTasks(tasks.filter((task) => task.id !== id)); // Tarefa excluída
     } else {
       const task = tasks.find((t) => t.id === id);
       const updatedTask = { ...task, section: 'Lixeira' };
-      await updateTask(id, updatedTask);
-      setTasks(tasks.map((t) => (t.id === id ? updatedTask : t)));
+      await updateTask(id, updatedTask); // Mover para Lixeira
+      setTasks(tasks.map((t) => (t.id === id ? updatedTask : t))); // Atualiza a lista
     }
   };
+  
 
   return (
     <TaskListContainer>

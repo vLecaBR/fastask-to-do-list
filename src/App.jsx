@@ -29,14 +29,14 @@ function App() {
 
   const handleRemoveSection = async (sectionToRemove) => {
     if (!['Hoje', 'Próximos 7 dias', 'Completas', 'Lixeira'].includes(sectionToRemove)) {
-      const sectionId = sections.find((sec) => sec.name === sectionToRemove)?.id;
-      await removeSection(sectionId);
-      setSections(sections.filter((section) => section.name !== sectionToRemove));
+      await removeSection(sectionToRemove); // Passar o nome da seção diretamente
+      setSections(sections.filter((section) => section !== sectionToRemove));
       if (currentSection === sectionToRemove) {
         setCurrentSection('Hoje');
       }
     }
   };
+  
 
   return (
     <div>
