@@ -29,41 +29,28 @@ function TaskList({ section }) {
   const handleToggleTask = async (id) => {
     const task = tasks.find((t) => t.id === id);
   
-    // Se a tarefa já foi concluída, não faz nada
-    if (task.completed) return;
+    // Verifica se a tarefa já está marcada como concluída
+    if (task.completed) return; // Se já está concluída, não faz nada
   
     const updatedTask = {
       ...task,
-      completed: true,  // Marca como concluída
-      section: "Completas",  // Muda para a seção "Completas"
+      completed: true,   // Marca a tarefa como concluída
+      section: "Completas", // Muda a seção para "Completas"
     };
   
+    // 1. Remove a tarefa localmente da seção atual
+    setTasks((prevTasks) => prevTasks.filter((t) => t.id !== id));
+  
+    // 2. Adiciona a tarefa à seção "Completas" localmente
+    setTasks((prevTasks) => [...prevTasks, updatedTask]);
+  
     try {
-      // Atualiza a tarefa no front-end imediatamente (sem delay)
-      setTasks((prevTasks) =>
-        prevTasks.map((t) => (t.id === id ? updatedTask : t))
-      );
-  
-      // Atualiza a tarefa no back-end para marcar como concluída e mover para a seção "Completas"
+      // 3. Atualiza a tarefa no backend, movendo para a seção "Completas"
       await updateTask(id, updatedTask);
-  
-      // Remove a tarefa da seção original (exclui do estado local)
-      setTasks((prevTasks) => prevTasks.filter((t) => t.id !== id));
-  
-      // Agora vamos buscar as tarefas da seção "Completas" para garantir que ela apareceu corretamente
-      const { data: completedTasks } = await fetchTasks("Completas");
-  
-      // Atualiza as tarefas na seção "Completas" imediatamente
-      setTasks((prevTasks) => [
-        ...prevTasks.filter((t) => t.section !== "Completas"),
-        ...completedTasks,  // Adiciona a tarefa na seção "Completas"
-      ]);
-  
     } catch (error) {
       console.error("Erro ao mover a tarefa para a seção 'Completas':", error);
     }
   };
-  
   
 
   const handleAddTask = async () => {
